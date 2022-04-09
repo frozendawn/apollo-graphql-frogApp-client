@@ -1,24 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import FrogList from './components/FrogList';
+import Navbar from './components/Navbar';
+import styles from './css/index.module.css';
+import {Routes, Route} from 'react-router-dom';
+import AddNewFrog from './components/AddNewFrog';
+import FrogDetail from './components/FrogDetail';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={styles.App}>
+      <Navbar />
+      
+      <Routes>
+        <Route path="/" element={<FrogList/>}/>
+        <Route path="/add-new" element={<AddNewFrog/>}/>
+        <Route path="/frog/:id" element={<FrogDetail/>}/>
+      </Routes>
     </div>
   );
 }
