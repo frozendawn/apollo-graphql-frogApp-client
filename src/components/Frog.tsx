@@ -17,7 +17,6 @@ interface Props {
 }
 
 const Frog: React.FC<Props> = (props) => {
-    console.log(props.frog)
     const navigate = useNavigate();
 
     const navigateToDetails = () => {

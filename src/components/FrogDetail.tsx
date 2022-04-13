@@ -13,6 +13,9 @@ const GET_FROG_BY_ID = gql`
       name
       description
       imageUrl
+      userId {
+        username
+      }
     }
   }
 `;
@@ -47,6 +50,7 @@ const FrogDetail: React.FC<Props> = () => {
                             </Grid>
                             <Grid item>
                               <Typography paragraph={true}>{data.getFrog.description}</Typography>
+                              <Typography paragraph={true}>Created by:{data!.getFrog!.userId!.username}</Typography>
                             </Grid>
                        
                        </Grid>

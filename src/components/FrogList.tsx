@@ -13,29 +13,26 @@ interface FrogInterface {
   imageUrl: string;
 }
 
+export const GET_FROGS = gql`
+  query {
+    getFrogs {
+      id
+      description
+      name
+      imageUrl
+    }
+  }
+`;
 const FrogList: React.FC<Props> = () => {
-    
-    const GET_FROGS = gql`
-    query {
-      getFrogs {
-        id
-        description
-        name
-        imageUrl
-      }
-    }
-  `;
+  const { loading, error, data } = useQuery(GET_FROGS);
+  // console.log("data in froglist", data);
+  const [frogs, setFrogs] = useState<FrogInterface[]>([]);
 
-const {loading, error, data} = useQuery(GET_FROGS);
-const [frogs, setFrogs] = useState<FrogInterface[]>([]);
-
-useEffect(() => {
+  useEffect(() => {
     if (!loading && !error) {
-        setFrogs(data.getFrogs);
+      setFrogs(data.getFrogs);
     }
-},[data, loading, error])
-
-
+  }, [data, loading, error]);
 
   return (
     <Container>
@@ -43,8 +40,8 @@ useEffect(() => {
         {frogs
           ? frogs.map((frog) => {
               return (
-                <Grid key={frog.id} item xs={4}>
-                  <Frog frog={frog}/>
+                <Grid key={frog.id} item xs={12} md={4}>
+                  <Frog frog={frog} />
                 </Grid>
               );
             })

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -11,13 +11,17 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import {useNavigate} from 'react-router-dom';
+import AuthenticationContext from '../store/auth-context';
 
-const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const navigate = useNavigate();
+  const authCtx = useContext(AuthenticationContext)
+  console.log(authCtx)
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -76,11 +80,12 @@ const Navbar = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem  onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">Frogs</Typography>
                 </MenuItem>
-              ))}
+                {authCtx.isLoggedIn && <MenuItem  onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">Add Frog</Typography>
+                </MenuItem>}
             </Menu>
           </Box>
           <Typography
@@ -92,15 +97,32 @@ const Navbar = () => {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
+
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
+                onClick={() => {navigate('/')}}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                {page}
+                Frogs
               </Button>
-            ))}
+              {authCtx.isLoggedIn && <Button
+                onClick={() => {navigate('add-new')}}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                Add Frog
+              </Button>}
+              <Button
+                onClick={() => {navigate('register')}}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                Register
+              </Button>
+              <Button
+                onClick={() => {navigate('login')}}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                Login
+              </Button>
+
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>

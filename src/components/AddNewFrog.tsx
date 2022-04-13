@@ -2,8 +2,11 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useMutation, gql } from "@apollo/client";
+import { useNavigate } from "react-router-dom";
+import {GET_FROGS} from './FrogList';
+import AuthenticationContext from '../store/auth-context';
 
 interface Props {}
 interface FormFieldValuesInterface {
@@ -12,21 +15,39 @@ interface FormFieldValuesInterface {
   imageUrl: string;
 }
 
+interface Frog {
+  description: string;
+  id: string;
+  imageUrl: string;
+  name: string;
+  }
+
 const ADD_FROG = gql`
-mutation AddFrog($name: String!, $description: String!, $imageUrl: String!) {
-    addFrog(name: $name, description: $description, imageUrl: $imageUrl) {
-        success
-        message
+  mutation AddFrog($name: String!, $description: String!, $imageUrl: String!, $userId: ID!) {
+    addFrog(name: $name, description: $description, imageUrl: $imageUrl, userId: $userId) {
+      code
+      message
+      success
+      frog {
+        id
+        name
+        description
+        imageUrl
+      }
     }
-}
+  }
 `;
 
 const AddNewFrog: React.FC<Props> = () => {
+  const navigate = useNavigate();
+  const authCtx = useContext(AuthenticationContext);
+  console.log(authCtx);
+
   const [formFieldValues, setFormFieldValues] =
     useState<FormFieldValuesInterface>({
       name: "",
       description: "",
-      imageUrl: ""
+      imageUrl: "",
     });
 
   const onBlurHandler = (e: any) => {
@@ -38,18 +59,27 @@ const AddNewFrog: React.FC<Props> = () => {
     });
   };
 
-  const [addFrog, { data, loading, error }] = useMutation(ADD_FROG, {
-      variables: {
-        name: formFieldValues.name,
-        description: formFieldValues.description,
-        imageUrl: formFieldValues.imageUrl
-      }
+  const [addFrog] = useMutation(ADD_FROG, {
+    variables: {
+      name: formFieldValues.name,
+      description: formFieldValues.description,
+      imageUrl: formFieldValues.imageUrl,
+      userId: authCtx!.user!.id
+    },
+    refetchQueries: [{query: GET_FROGS}]
   });
 
-  const onSubmitHander = (e:any) => {
-      console.log('hello')
+  const onSubmitHander = async (e: any) => {
     e.preventDefault();
-    addFrog();
+    try {
+      const response = await addFrog();
+      if (response.data.addFrog.success) {
+        console.log(response.data.addFrog.success);
+        return navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
