@@ -23,6 +23,7 @@ const LOGIN_MUTATION = gql`
       id
       accessToken
       username
+      userImage
     }
   }
 `;
@@ -45,10 +46,11 @@ const Login: React.FC<Props> = () => {
   const onSubmitHander = async (e: any) => {
     e.preventDefault();
     const response = await loginUser();
-
-    if (response!.data!.Login.success) {
-      authCtx.login(response.data.Login.username, response.data.Login.accessToken, response.data.Login.id);
-      return navigate('/')
+    console.log(response)
+    if (response && response!.data!.Login.success) {
+      console.log('response?.data?.Login?.userImage',response?.data?.Login?.userImage)
+      authCtx.login(response.data.Login.username, response.data.Login.accessToken, response.data.Login.id, response.data.Login.userImage);
+      // return navigate('/')
     }
   };
 

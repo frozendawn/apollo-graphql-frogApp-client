@@ -21,7 +21,6 @@ const Navbar = () => {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
   const authCtx = useContext(AuthenticationContext)
-  console.log(authCtx)
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -125,10 +124,10 @@ const Navbar = () => {
 
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
+          {authCtx.isLoggedIn && <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Remy Sharp" src={authCtx.user.userImage ? authCtx.user.userImage : '/static/images/avatar/2.jpg'} />
               </IconButton>
             </Tooltip>
             <Menu
@@ -153,7 +152,7 @@ const Navbar = () => {
                 </MenuItem>
               ))}
             </Menu>
-          </Box>
+          </Box>}
         </Toolbar>
       </Container>
     </AppBar>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 interface User {
   username: string;
+  userImage?: string;
   id: string;
   token: string;
 }
@@ -9,7 +10,7 @@ interface ContextInterface {
   isLoggedIn: boolean;
   user: User | null;
   logout: () => void;
-  login: (user: string, token: string, id: string) => void
+  login: (user: string, token: string, id: string, userImage?: string) => void
 }
 
 const AuthenticationContext = React.createContext<ContextInterface>({
@@ -31,13 +32,14 @@ export const AuthenticationContextProvider:React.FC<ProviderProps> = (props) => 
     setUser(null)
   }
 
-  const logUserIn = (user: string, token: string, id: string) => {
-    setIsLoggedIn(true)
+  const logUserIn = (user: string, token: string, id: string, userImage?: string) => {
     setUser({
       username: user,
       id: id,
-      token: token
+      token: token,
+      userImage: userImage
     })
+    setIsLoggedIn(true)
   }
 
   const defaultContext = {
