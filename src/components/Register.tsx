@@ -105,7 +105,9 @@ const Register: React.FC<Props> = () => {
               label="Username"
               variant="outlined"
               name="username"
+              color='success'
               onBlur={onBlurHandler}
+
             />
           </Grid>
           <Grid item md={12}>
@@ -116,20 +118,23 @@ const Register: React.FC<Props> = () => {
               name="password"
               type="password"
               onBlur={onBlurHandler}
+              color='success'
             />
           </Grid>
           <Grid item md={12}>
             <Button
+              sx={{ backgroundColor: "#357906" }}
               variant="contained"
               component="label"
               onChange={uploadImageHandler}
+              color='success'
             >
               Upload File
               <input type="file" hidden name="image" />
             </Button>
           </Grid>
           <Grid item md={12}>
-            <Button type="submit" variant="text" sx={{ width: "100%" }}>
+            <Button type="submit" variant="text" sx={{ width: "100%", color: "#357906" }}>
               Register
             </Button>
           </Grid>

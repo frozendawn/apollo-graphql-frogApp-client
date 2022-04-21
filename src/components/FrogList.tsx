@@ -11,6 +11,7 @@ interface FrogInterface {
   name: string;
   description: string;
   imageUrl: string;
+  numberOfViews: number;
 }
 
 export const GET_FROGS = gql`
@@ -20,12 +21,12 @@ export const GET_FROGS = gql`
       description
       name
       imageUrl
+      numberOfViews
     }
   }
 `;
 const FrogList: React.FC<Props> = () => {
   const { loading, error, data } = useQuery(GET_FROGS);
-  // console.log("data in froglist", data);
   const [frogs, setFrogs] = useState<FrogInterface[]>([]);
 
   useEffect(() => {
@@ -35,7 +36,7 @@ const FrogList: React.FC<Props> = () => {
   }, [data, loading, error]);
 
   return (
-    <Container>
+    <Container sx={{marginTop: "2rem"}}>
       <Grid container spacing={2}>
         {frogs
           ? frogs.map((frog) => {

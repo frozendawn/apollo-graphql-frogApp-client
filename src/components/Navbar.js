@@ -14,8 +14,6 @@ import MenuItem from '@mui/material/MenuItem';
 import {useNavigate} from 'react-router-dom';
 import AuthenticationContext from '../store/auth-context';
 
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -38,7 +36,7 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{backgroundColor: "#357906"}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -103,25 +101,26 @@ const Navbar = () => {
               >
                 Frogs
               </Button>
-              {authCtx.isLoggedIn && <Button
+          </Box>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'flex-end' }}>
+            {authCtx.isLoggedIn && <Button
                 onClick={() => {navigate('add-new')}}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 Add Frog
               </Button>}
-              <Button
+              {!authCtx.isLoggedIn && <Button
                 onClick={() => {navigate('register')}}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 Register
-              </Button>
-              <Button
+              </Button>}
+              {!authCtx.isLoggedIn && <Button
                 onClick={() => {navigate('login')}}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 Login
-              </Button>
-
+              </Button>}
           </Box>
 
           {authCtx.isLoggedIn && <Box sx={{ flexGrow: 0 }}>
@@ -146,11 +145,11 @@ const Navbar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+
+                <MenuItem  onClick={authCtx.logout}>
+                  <Typography textAlign="center">Logout</Typography>
                 </MenuItem>
-              ))}
+
             </Menu>
           </Box>}
         </Toolbar>

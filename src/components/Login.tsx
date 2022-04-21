@@ -50,7 +50,7 @@ const Login: React.FC<Props> = () => {
     if (response && response!.data!.Login.success) {
       console.log('response?.data?.Login?.userImage',response?.data?.Login?.userImage)
       authCtx.login(response.data.Login.username, response.data.Login.accessToken, response.data.Login.id, response.data.Login.userImage);
-      // return navigate('/')
+      return navigate('/')
     }
   };
 
@@ -81,6 +81,7 @@ const Login: React.FC<Props> = () => {
               variant="outlined"
               name="username"
               onBlur={onBlurHandler}
+              color='success'
             />
           </Grid>
           <Grid item md={12}>
@@ -91,10 +92,11 @@ const Login: React.FC<Props> = () => {
               variant="outlined"
               name="password"
               onBlur={onBlurHandler}
+              color='success'
             />
           </Grid>
           <Grid item md={12}>
-            <Button type="submit" variant="text" sx={{ width: "100%" }}>
+            <Button type="submit" variant="text" sx={{ color: "#357906" }}>
               Login
             </Button>
           </Grid>

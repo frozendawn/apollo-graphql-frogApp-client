@@ -20,6 +20,7 @@ interface Frog {
   id: string;
   imageUrl: string;
   name: string;
+  numberOfViews: number;
   }
 
 const ADD_FROG = gql`
@@ -66,15 +67,29 @@ const AddNewFrog: React.FC<Props> = () => {
       imageUrl: formFieldValues.imageUrl,
       userId: authCtx!.user!.id
     },
-    refetchQueries: [{query: GET_FROGS}]
+    update(cache, {data}) {
+      const newData = data?.addFrog.frog
+      const { getFrogs }:any = cache.readQuery({
+        query: GET_FROGS
+      });
+      cache.writeQuery({
+        query: GET_FROGS,
+        data: {
+          getFrogs: [
+          ...getFrogs,
+          newData
+        ]
+      }
+      })
+    },
   });
+  // refetchQueries: [{query: GET_FROGS}] alternative makes 2 request to the server tho
 
   const onSubmitHander = async (e: any) => {
     e.preventDefault();
     try {
       const response = await addFrog();
       if (response.data.addFrog.success) {
-        console.log(response.data.addFrog.success);
         return navigate("/");
       }
     } catch (error) {
@@ -100,6 +115,7 @@ const AddNewFrog: React.FC<Props> = () => {
               variant="outlined"
               name="name"
               onBlur={onBlurHandler}
+              color='success'
             />
           </Grid>
           <Grid item md={12}>
@@ -109,6 +125,7 @@ const AddNewFrog: React.FC<Props> = () => {
               variant="outlined"
               name="description"
               onBlur={onBlurHandler}
+              color='success'
             />
           </Grid>
           <Grid item md={12}>
@@ -118,10 +135,11 @@ const AddNewFrog: React.FC<Props> = () => {
               variant="outlined"
               name="imageUrl"
               onBlur={onBlurHandler}
+              color='success'
             />
           </Grid>
           <Grid item md={12}>
-            <Button type="submit" variant="text" sx={{ width: "100%" }}>
+            <Button type="submit" variant="text" sx={{color: "#357906"}}>
               Add
             </Button>
           </Grid>
