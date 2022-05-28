@@ -24,6 +24,7 @@ const LOGIN_MUTATION = gql`
       accessToken
       username
       userImage
+      role
     }
   }
 `;
@@ -48,8 +49,9 @@ const Login: React.FC<Props> = () => {
     const response = await loginUser();
     console.log(response)
     if (response && response!.data!.Login.success) {
-      console.log('response?.data?.Login?.userImage',response?.data?.Login?.userImage)
-      authCtx.login(response.data.Login.username, response.data.Login.accessToken, response.data.Login.id, response.data.Login.userImage);
+      console.log('response.data.Login',response.data.Login)
+      localStorage.setItem('token',response.data.Login.accessToken)
+      authCtx.login(response.data.Login.username, response.data.Login.accessToken, response.data.Login.id, response.data.Login.role, response.data.Login.userImage);
       return navigate('/')
     }
   };

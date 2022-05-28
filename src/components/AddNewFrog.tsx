@@ -42,7 +42,6 @@ const ADD_FROG = gql`
 const AddNewFrog: React.FC<Props> = () => {
   const navigate = useNavigate();
   const authCtx = useContext(AuthenticationContext);
-  console.log(authCtx);
 
   const [formFieldValues, setFormFieldValues] =
     useState<FormFieldValuesInterface>({

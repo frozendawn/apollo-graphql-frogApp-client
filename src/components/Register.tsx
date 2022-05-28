@@ -55,6 +55,7 @@ const Register: React.FC<Props> = () => {
         response.data.Register.username,
         response.data.Register.accessToken,
         response.data.Register.id,
+        response.data.Register.role,
         response.data.Register.userImage
       );
     return navigate('/')
