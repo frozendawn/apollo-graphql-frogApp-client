@@ -9,8 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { gql, useMutation } from "@apollo/client";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
-import AuthenticationContext from '../store/auth-context';
-import {GET_FROGS} from './FrogList';
+import AuthenticationContext from "../store/auth-context";
+import { GET_FROGS } from "./FrogList";
 
 interface Props {
   frog: {
@@ -36,8 +36,8 @@ const INCREMENT_FROG_VIEWS = gql`
 `;
 
 const REMOVE_FROG = gql`
-  mutation RemoveFrog ($id: ID!) {
-     removeFrog (id: $id) {
+  mutation RemoveFrog($id: ID!) {
+    removeFrog(id: $id) {
       code
       success
       message
@@ -47,23 +47,29 @@ const REMOVE_FROG = gql`
 
 const Frog: React.FC<Props> = (props) => {
   const navigate = useNavigate();
-  const authCtx = useContext(AuthenticationContext)
-  const [incrementFrogViews] = useMutation(INCREMENT_FROG_VIEWS);
+  const authCtx = useContext(AuthenticationContext);
+  const [incrementFrogViews] = useMutation(INCREMENT_FROG_VIEWS, {
+    refetchQueries: [
+      {
+        query: GET_FROGS,
+      },
+    ],
+  });
   const [removeFrog] = useMutation(REMOVE_FROG, {
     variables: {
-      id: props.frog.id
+      id: props.frog.id,
     },
     context: {
       headers: {
-          "Authorization": authCtx.user?.token
-      }
+        Authorization: authCtx.user?.token,
+      },
     },
     refetchQueries: [
       {
-        query: GET_FROGS
-      }
-    ]
-  })
+        query: GET_FROGS,
+      },
+    ],
+  });
 
   const navigateToDetails = () => {
     incrementFrogViews({
@@ -74,10 +80,10 @@ const Frog: React.FC<Props> = (props) => {
     navigate(`/frog/${props.frog.id}`);
   };
 
-  const removeFrogHandler = async (e:any) => {
+  const removeFrogHandler = async (e: any) => {
     e.preventDefault();
-    removeFrog()
-  }
+    removeFrog();
+  };
 
   return (
     <Card sx={{ maxWidth: 345 }}>
@@ -111,9 +117,11 @@ const Frog: React.FC<Props> = (props) => {
         <Typography variant="body2" color="text.secondary">
           {props.frog.numberOfViews}
         </Typography>
-        {authCtx?.user?.role === 'admin' && <IconButton aria-label="delete">
-          <DeleteIcon onClick={removeFrogHandler}/>
-        </IconButton>}
+        {authCtx?.user?.role === "admin" && (
+          <IconButton aria-label="delete">
+            <DeleteIcon onClick={removeFrogHandler} />
+          </IconButton>
+        )}
       </CardActions>
     </Card>
   );

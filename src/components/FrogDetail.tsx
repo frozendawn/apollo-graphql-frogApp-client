@@ -24,11 +24,12 @@ const GET_FROG_BY_ID = gql`
 const FrogDetail: React.FC<Props> = () => {
   const params = useParams();
 
-  const { loading, error, data } = useQuery(GET_FROG_BY_ID, {
+  const { loading, error, data, refetch } = useQuery<any>(GET_FROG_BY_ID, {
     variables: {
       id: params.id,
-    },
+    }
   });
+  refetch();
   return (
       <Container>
           {loading ? 'loading...': (

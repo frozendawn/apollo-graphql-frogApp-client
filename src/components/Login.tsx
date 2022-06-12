@@ -15,7 +15,7 @@ interface FormInput {
 }
 
 const LOGIN_MUTATION = gql`
-  mutation Login ($username: String!, $password: String!) {
+  mutation Login($username: String!, $password: String!) {
     Login(username: $username, password: $password) {
       code
       success
@@ -40,19 +40,23 @@ const Login: React.FC<Props> = () => {
   const [loginUser] = useMutation(LOGIN_MUTATION, {
     variables: {
       username: formFieldValues.username,
-      password: formFieldValues.password
-    }
+      password: formFieldValues.password,
+    },
   });
 
   const onSubmitHander = async (e: any) => {
     e.preventDefault();
     const response = await loginUser();
-    console.log(response)
     if (response && response!.data!.Login.success) {
-      console.log('response.data.Login',response.data.Login)
-      localStorage.setItem('token',response.data.Login.accessToken)
-      authCtx.login(response.data.Login.username, response.data.Login.accessToken, response.data.Login.id, response.data.Login.role, response.data.Login.userImage);
-      return navigate('/')
+      localStorage.setItem("token", response.data.Login.accessToken);
+      authCtx.login(
+        response.data.Login.username,
+        response.data.Login.accessToken,
+        response.data.Login.id,
+        response.data.Login.role,
+        response.data.Login.userImage
+      );
+      return navigate("/");
     }
   };
 
@@ -67,7 +71,10 @@ const Login: React.FC<Props> = () => {
 
   return (
     <Container>
-      <form onSubmit={onSubmitHander}>
+      <form
+        onSubmit={onSubmitHander}
+        onKeyDown={(e) => (e.key === "Enter" ? onSubmitHander : null)}
+      >
         <Grid
           container
           direction="column"
@@ -83,7 +90,7 @@ const Login: React.FC<Props> = () => {
               variant="outlined"
               name="username"
               onBlur={onBlurHandler}
-              color='success'
+              color="success"
             />
           </Grid>
           <Grid item md={12}>
@@ -94,7 +101,7 @@ const Login: React.FC<Props> = () => {
               variant="outlined"
               name="password"
               onBlur={onBlurHandler}
-              color='success'
+              color="success"
             />
           </Grid>
           <Grid item md={12}>
