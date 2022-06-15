@@ -118,8 +118,8 @@ const Frog: React.FC<Props> = (props) => {
           {props.frog.numberOfViews}
         </Typography>
         {authCtx?.user?.role === "admin" && (
-          <IconButton aria-label="delete">
-            <DeleteIcon onClick={removeFrogHandler} />
+          <IconButton onClick={removeFrogHandler} aria-label="delete">
+            <DeleteIcon />
           </IconButton>
         )}
       </CardActions>

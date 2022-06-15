@@ -36,6 +36,7 @@ const Login: React.FC<Props> = () => {
     username: "",
     password: "",
   });
+  console.log('formFieldValues',formFieldValues)
 
   const [loginUser] = useMutation(LOGIN_MUTATION, {
     variables: {
