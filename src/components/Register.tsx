@@ -102,7 +102,6 @@ const Register: React.FC<Props> = () => {
         >
           <Grid item md={12}>
             <TextField
-              id="outlined-basic"
               label="Username"
               variant="outlined"
               name="username"
@@ -113,7 +112,6 @@ const Register: React.FC<Props> = () => {
           </Grid>
           <Grid item md={12}>
             <TextField
-              id="outlined-basic"
               label="Password"
               variant="outlined"
               name="password"

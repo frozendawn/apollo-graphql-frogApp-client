@@ -21,9 +21,7 @@ const AuthenticationContext = React.createContext<ContextInterface>({
   login: () => {}
 })
 
-interface ProviderProps {}
-
-export const AuthenticationContextProvider:React.FC<ProviderProps> = (props) => {
+export const AuthenticationContextProvider:React.FC<any> = (props) => {
 
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
   const [user, setUser] = useState<User | null>(null)

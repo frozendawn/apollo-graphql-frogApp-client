@@ -36,7 +36,6 @@ const Login: React.FC<Props> = () => {
     username: "",
     password: "",
   });
-  console.log('formFieldValues',formFieldValues)
 
   const [loginUser] = useMutation(LOGIN_MUTATION, {
     variables: {
@@ -86,7 +85,6 @@ const Login: React.FC<Props> = () => {
         >
           <Grid item md={12}>
             <TextField
-              id="outlined-basic"
               label="Username"
               variant="outlined"
               name="username"
@@ -97,7 +95,6 @@ const Login: React.FC<Props> = () => {
           <Grid item md={12}>
             <TextField
               type="password"
-              id="outlined-basic"
               label="Password"
               variant="outlined"
               name="password"

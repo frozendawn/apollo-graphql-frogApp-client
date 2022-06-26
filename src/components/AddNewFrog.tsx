@@ -109,7 +109,6 @@ const AddNewFrog: React.FC<Props> = () => {
         >
           <Grid item md={12}>
             <TextField
-              id="outlined-basic"
               label="Name"
               variant="outlined"
               name="name"
@@ -119,7 +118,6 @@ const AddNewFrog: React.FC<Props> = () => {
           </Grid>
           <Grid item md={12}>
             <TextField
-              id="outlined-basic"
               label="Description"
               variant="outlined"
               name="description"
@@ -129,7 +127,6 @@ const AddNewFrog: React.FC<Props> = () => {
           </Grid>
           <Grid item md={12}>
             <TextField
-              id="outlined-basic"
               label="Image url"
               variant="outlined"
               name="imageUrl"

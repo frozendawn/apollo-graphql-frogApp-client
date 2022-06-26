@@ -55,6 +55,7 @@ const Frog: React.FC<Props> = (props) => {
       },
     ],
   });
+  
   const [removeFrog] = useMutation(REMOVE_FROG, {
     variables: {
       id: props.frog.id,
@@ -117,7 +118,7 @@ const Frog: React.FC<Props> = (props) => {
         <Typography variant="body2" color="text.secondary">
           {props.frog.numberOfViews}
         </Typography>
-        {authCtx?.user?.role === "admin" && (
+        {authCtx?.user?.role === "admin" || authCtx?.user?.role === "moderator" && (
           <IconButton onClick={removeFrogHandler} aria-label="delete">
             <DeleteIcon />
           </IconButton>

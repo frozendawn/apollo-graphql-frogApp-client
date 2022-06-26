@@ -2,13 +2,16 @@ import React, { useContext } from "react";
 import AuthentinticationContext from "../store/auth-context";
 import { Outlet, Navigate } from "react-router-dom";
 
-interface Props {}
+interface Props {
 
-const ProtectedRoute: React.FC<Props> = () => {
+}
+
+const ModeratorRoute: React.FC<Props> = () => {
   const authCtx = useContext(AuthentinticationContext);
+  const role = authCtx.user?.role === 'admin';
   return (
-    authCtx.isLoggedIn ? <Outlet/> : <Navigate to="/" replace/>
+    role ? <Outlet/> : <Navigate to="/" replace/>
   )
 };
 
-export default ProtectedRoute;
+export default ModeratorRoute;
