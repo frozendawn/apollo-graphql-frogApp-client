@@ -20,6 +20,7 @@ const Navbar = () => {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
   const authCtx = useContext(AuthenticationContext)
+  console.log(authCtx)
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);

@@ -48,7 +48,16 @@ const Login: React.FC<Props> = () => {
     e.preventDefault();
     const response = await loginUser();
     if (response && response!.data!.Login.success) {
-      localStorage.setItem("token", response.data.Login.accessToken);
+
+      const user = {
+        username: response.data.Login.username,
+        userImage: response.data.Login.userImage,
+        id: response.data.Login.id,
+        token: response.data.Login.accessToken,
+        role: response.data.Login.role
+      }
+
+      localStorage.setItem("user", JSON.stringify(user));
       authCtx.login(
         response.data.Login.username,
         response.data.Login.accessToken,

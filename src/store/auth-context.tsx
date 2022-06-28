@@ -23,15 +23,17 @@ const AuthenticationContext = React.createContext<ContextInterface>({
 
 export const AuthenticationContextProvider:React.FC<any> = (props) => {
 
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
-  const [user, setUser] = useState<User | null>(null)
+  const storedUser: User | null = JSON.parse(localStorage.getItem('user') || 'null')
+  const [user, setUser] = useState<User | null>(storedUser)
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(Boolean(user))
 
   const logUserOut = () => {
     setIsLoggedIn(false)
     setUser(null)
+    localStorage.removeItem('user')
   }
 
-  const logUserIn = (user: string, token: string, id: string,role: string, userImage?: string) => {
+  const logUserIn = (user: string, token: string, id: string, role: string, userImage?: string) => {
     setUser({
       username: user,
       id: id,

@@ -51,6 +51,17 @@ const Register: React.FC<Props> = () => {
     e.preventDefault();
     const response = await registerUser();
     if (response && response.data.Register.success) {
+
+      const user = {
+        username: response.data.Register.username,
+        userImage: response.data.Register.userImage,
+        id: response.data.Register.id,
+        token: response.data.Register.accessToken,
+        role: response.data.Register.role
+      }
+
+      localStorage.setItem("user", JSON.stringify(user));
+
       authCtx.login(
         response.data.Register.username,
         response.data.Register.accessToken,
