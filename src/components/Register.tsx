@@ -7,6 +7,7 @@ import { gql, useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import AuthenticationContext from "../store/auth-context";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 
 interface Props {}
 
@@ -14,6 +15,11 @@ interface FormInput {
   username: string;
   password: string;
   imageUrl?: string
+}
+interface UserToken {
+  id: string;
+  username: string;
+  role: string;
 }
 
 const REGISTER = gql`
@@ -51,22 +57,22 @@ const Register: React.FC<Props> = () => {
     e.preventDefault();
     const response = await registerUser();
     if (response && response.data.Register.success) {
-
+      const decodedToken: UserToken = jwt_decode(response.data.Login.accessToken)
       const user = {
-        username: response.data.Register.username,
+        username: decodedToken.username,
         userImage: response.data.Register.userImage,
-        id: response.data.Register.id,
+        id: decodedToken.id,
         token: response.data.Register.accessToken,
-        role: response.data.Register.role
+        role: decodedToken.role
       }
 
       localStorage.setItem("user", JSON.stringify(user));
 
       authCtx.login(
-        response.data.Register.username,
+        decodedToken.username,
         response.data.Register.accessToken,
-        response.data.Register.id,
-        response.data.Register.role,
+        decodedToken.id,
+        decodedToken.role,
         response.data.Register.userImage
       );
     return navigate('/')
@@ -86,7 +92,7 @@ const Register: React.FC<Props> = () => {
 
     const formData = new FormData();
     formData.append('image',e.target.files[0])
-    const response = await fetch ('http://localhost:5000/upload-image', {
+    const response = await fetch (`${process.env.REACT_APP_SERVER_URL}/upload-image`, {
       method: "POST",
       body: formData
     })

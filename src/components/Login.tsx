@@ -6,12 +6,19 @@ import { useContext, useState } from "react";
 import AuthenticationContext from "../store/auth-context";
 import { gql, useMutation } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 
 interface Props {}
 
 interface FormInput {
   username: string;
   password: string;
+}
+
+interface UserToken {
+  id: string;
+  username: string;
+  role: string;
 }
 
 const LOGIN_MUTATION = gql`
@@ -48,21 +55,21 @@ const Login: React.FC<Props> = () => {
     e.preventDefault();
     const response = await loginUser();
     if (response && response!.data!.Login.success) {
-
+      const decodedToken: UserToken = jwt_decode(response.data.Login.accessToken)
       const user = {
-        username: response.data.Login.username,
+        username: decodedToken.username,
         userImage: response.data.Login.userImage,
-        id: response.data.Login.id,
+        id: decodedToken.id,
         token: response.data.Login.accessToken,
-        role: response.data.Login.role
+        role: decodedToken.role
       }
 
       localStorage.setItem("user", JSON.stringify(user));
       authCtx.login(
-        response.data.Login.username,
+        decodedToken.username,
         response.data.Login.accessToken,
-        response.data.Login.id,
-        response.data.Login.role,
+        decodedToken.id,
+        decodedToken.role,
         response.data.Login.userImage
       );
       return navigate("/");

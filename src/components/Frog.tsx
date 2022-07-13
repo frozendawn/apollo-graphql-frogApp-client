@@ -118,11 +118,11 @@ const Frog: React.FC<Props> = (props) => {
         <Typography variant="body2" color="text.secondary">
           {props.frog.numberOfViews}
         </Typography>
-        {authCtx?.user?.role === "admin" || authCtx?.user?.role === "moderator" && (
+        {(authCtx?.user?.role === "admin" || authCtx?.user?.role === "moderator") ? (
           <IconButton onClick={removeFrogHandler} aria-label="delete">
             <DeleteIcon />
           </IconButton>
-        )}
+        ) : null}
       </CardActions>
     </Card>
   );
