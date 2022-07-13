@@ -27,11 +27,8 @@ const LOGIN_MUTATION = gql`
       code
       success
       message
-      id
       accessToken
-      username
       userImage
-      role
     }
   }
 `;

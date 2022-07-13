@@ -29,8 +29,6 @@ const REGISTER = gql`
       success
       message
       accessToken
-      id
-      username
       userImage
     }
   }
@@ -57,7 +55,7 @@ const Register: React.FC<Props> = () => {
     e.preventDefault();
     const response = await registerUser();
     if (response && response.data.Register.success) {
-      const decodedToken: UserToken = jwt_decode(response.data.Login.accessToken)
+      const decodedToken: UserToken = jwt_decode(response.data.Register.accessToken)
       const user = {
         username: decodedToken.username,
         userImage: response.data.Register.userImage,
